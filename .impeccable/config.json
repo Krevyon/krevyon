@@ -1,0 +1,56 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "design-system-radius",
+        "value": "2px",
+        "createdAt": "2026-08-25T17:54:18.026Z",
+        "reason": "genuine one-off: rounds the tips of the 2px hamburger-icon bars so they don't look like hard rectangles, not a container/card corner-radius decision governed by the shape scale"
+      },
+      {
+        "rule": "design-system-color",
+        "value": "#000",
+        "createdAt": "2026-08-25T20:35:23.925Z",
+        "reason": "false positive: #000 inside a -webkit-mask linear-gradient (gradient-border mask technique); mask color is a luminance/alpha convention, not a visual palette color"
+      },
+      {
+        "rule": "overused-font",
+        "value": "inter",
+        "createdAt": "2026-08-25T20:37:12.484Z",
+        "reason": "user confirmed: Inter was explicitly named as an acceptable body font in the original brief, reconfirmed across every prior triage this session"
+      },
+      {
+        "rule": "design-system-radius",
+        "value": "6px",
+        "createdAt": "2026-08-26T01:55:00.000Z",
+        "reason": "documented micro-scale (DESIGN.md Shapes): KPI icon chips and other under-24px elements inside the mini-interface/dashboard vocabulary use 3-7px, not the 8px section-level radius step, or they read as rounded blobs at that size"
+      },
+      {
+        "rule": "design-system-radius",
+        "value": "7px",
+        "createdAt": "2026-08-26T01:55:00.000Z",
+        "reason": "documented micro-scale (DESIGN.md Shapes): KPI icon chips and other under-24px elements inside the mini-interface/dashboard vocabulary use 3-7px, not the 8px section-level radius step, or they read as rounded blobs at that size"
+      },
+      {
+        "rule": "design-system-radius",
+        "value": "5px",
+        "createdAt": "2026-08-26T01:55:00.000Z",
+        "reason": "documented micro-scale (DESIGN.md Shapes): the dashboard brand mark and similar under-24px elements use 3-7px, not the 8px section-level radius step"
+      },
+      {
+        "rule": "design-system-radius",
+        "value": "3px",
+        "createdAt": "2026-08-26T01:55:00.000Z",
+        "reason": "documented micro-scale (DESIGN.md Shapes): chart-bar top corners are a 3px micro-radius, well below the 8px section-level step which would look like a rounded blob on a bar this thin"
+      },
+      {
+        "rule": "design-system-font-size",
+        "value": "0.5rem",
+        "createdAt": "2026-08-26T01:55:00.000Z",
+        "reason": "documented Micro type tier (DESIGN.md Typography): the smallest labels living inside a device mock (product badges, card meta) sit below the section-level type ramp by design, matching the existing 0.5625-0.875rem mini-interface scale already in use before this pass"
+      }
+    ]
+  }
+}
