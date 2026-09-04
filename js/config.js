@@ -17,7 +17,7 @@ window.KREVYON_CONFIG = {
   primaryCta: "Escribir por WhatsApp",
   instagram: "https://instagram.com/krevyon",
   whatsapp: "https://wa.me/50660356842",
-  whatsappDisplay: "+506 0000 0000",
+  whatsappDisplay: "+506 6035 6842",
   email: "hola@krevyon.com",
   location: "Costa Rica",
   whatsappMessage:
