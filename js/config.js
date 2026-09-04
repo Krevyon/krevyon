@@ -15,7 +15,7 @@ window.KREVYON_CONFIG = {
   tagline: "Diseño y desarrollo web que se sienten premium.",
   shortDescription: "Diseño y desarrollo web premium para negocios reales.",
   primaryCta: "Escribir por WhatsApp",
-  instagram: "https://instagram.com/krevyon",
+  instagram: "https://instagram.com/krevyon_cr",
   whatsapp: "https://wa.me/50660356842",
   whatsappDisplay: "+506 6035 6842",
   email: "hola@krevyon.com",
