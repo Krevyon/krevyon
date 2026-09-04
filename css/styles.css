@@ -30,6 +30,11 @@
 
   --grad-ribbon: linear-gradient(115deg, var(--cyan) 0%, var(--blue) 32%, var(--blue-deep) 54%, var(--violet) 80%, var(--magenta) 100%);
   --grad-ribbon-soft: linear-gradient(115deg, rgba(1, 224, 252, 0.16), rgba(0, 135, 253, 0.16) 32%, rgba(1, 93, 252, 0.16) 54%, rgba(115, 10, 252, 0.16) 80%, rgba(178, 3, 252, 0.16) 100%);
+  /* Three-stop cyan->blue->violet accent for gradient-clipped text (hero
+     headline emphasis only). Narrower than --grad-ribbon (which runs all the
+     way to magenta) because the client asked specifically for "cyan, azul
+     eléctrico y morado" as the hero's emphasis gradient. */
+  --grad-hero-accent: linear-gradient(100deg, var(--cyan) 0%, var(--blue) 50%, var(--violet) 100%);
   /* Darkened for text-bearing surfaces: a flat text color cannot hold 4.5:1
      against the full cyan->magenta range (bright cyan and mid violet sit at
      opposite ends of the luminance scale). A ~50% dark scrim brings every
@@ -248,7 +253,7 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   line-height: 1;
 }
 /* logo-icon.png is pre-cropped to the mark's real ink bounding box (ratio
-   ~1.10:1); only height is fixed here so width follows that natural ratio
+   ~1.10:1); only width is fixed here so height follows that natural ratio
    instead of being forced into a square box, which was reading as stretched. */
 .brand__mark {
   display: block;
@@ -263,6 +268,35 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   font-size: 1rem;
   letter-spacing: -0.02em;
   line-height: 1;
+  color: var(--text);
+}
+
+/* Language switch: reuses the same "filled pill = active" pattern already
+   established by the build tabs (see DESIGN.md Tabs), not a new decoration. */
+.lang-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 3px;
+  border-radius: var(--radius-full);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.lang-switch__btn {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.75rem;
+  line-height: 1.4;
+  letter-spacing: 0.02em;
+  color: var(--text-dim);
+  padding: 0.35rem 0.65rem;
+  border-radius: var(--radius-full);
+  transition: color var(--dur-fast) var(--ease), background var(--dur-fast) var(--ease);
+}
+.lang-switch__btn:hover { color: var(--text); }
+.lang-switch__btn[aria-current="page"] {
+  background: var(--grad-ribbon-btn);
   color: var(--text);
 }
 
@@ -301,7 +335,17 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
    Hero
    ========================================================================== */
 
-.hero { position: relative; padding-block: var(--space-9) var(--space-10); overflow: clip; }
+.hero {
+  position: relative;
+  overflow: clip;
+  padding-block: var(--space-9) var(--space-8);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+@media (min-width: 980px) {
+  .hero { min-height: 92vh; }
+}
 
 .hero__field {
   position: absolute; inset: 0; pointer-events: none;
@@ -318,6 +362,30 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   align-items: center;
 }
 
+.hero__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-full);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--text-dim);
+  margin-bottom: var(--space-5);
+}
+.hero__badge::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--grad-ribbon);
+  flex-shrink: 0;
+}
+
 .hero__title {
   font-family: var(--font-display);
   font-weight: 800;
@@ -326,10 +394,6 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   letter-spacing: -0.02em;
   color: var(--text);
   max-width: 15ch;
-}
-.hero__title em {
-  font-style: normal;
-  color: var(--cyan);
 }
 .hero__title-line {
   display: block;
@@ -340,6 +404,13 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
 }
 .hero__title-line:nth-child(1) { animation-delay: 0.15s; }
 .hero__title-line:nth-child(2) { animation-delay: 0.32s; }
+.hero__title-line--accent {
+  background-image: var(--grad-hero-accent);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
 
 @keyframes heroLineIn { to { opacity: 1; filter: blur(0); transform: translateY(0); } }
 
@@ -349,7 +420,6 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
 }
 .hero__sub[data-hero-reveal] { animation-delay: 0.55s; }
 .hero__actions[data-hero-reveal] { animation-delay: 0.7s; }
-.hero__meta[data-hero-reveal] { animation-delay: 0.85s; }
 
 @media (prefers-reduced-motion: reduce) {
   .hero__title-line, [data-hero-reveal] { opacity: 1; filter: none; transform: none; animation: none; }
@@ -357,44 +427,32 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
 
 .hero__sub { margin-top: var(--space-5); font-size: 1.125rem; line-height: 1.65; color: var(--text-dim); max-width: 32rem; }
 .hero__actions { display: flex; flex-wrap: wrap; gap: var(--space-4); margin-top: var(--space-7); }
-.hero__meta {
-  display: flex; flex-wrap: wrap; gap: var(--space-5); margin-top: var(--space-7);
-  font-size: 0.8125rem; color: var(--text-dim);
+
+/* Stage for the Three.js scene (#krevyon-scene, mounted by js/hero-scene.js).
+   Deliberately no background/border/shadow: the object must read as
+   floating directly over the hero's own background, not inside a visible
+   card. If WebGL is unavailable or the module fails to load, this box is
+   simply empty space — no fallback panel — since a visible "card" is
+   exactly what this composition is meant to avoid. */
+.hero__scene {
+  position: relative;
+  overflow: hidden;
+  min-height: 20rem;
+  width: 100%;
 }
-.hero__meta li { display: flex; align-items: center; gap: var(--space-2); }
-.hero__meta li::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--grad-ribbon); flex-shrink: 0; }
-
-.hero__visual { position: relative; display: flex; align-items: center; justify-content: center; min-height: 22rem; }
-
-.hero__ringWrap {
+@media (min-width: 980px) {
+  .hero__scene { min-height: 32rem; }
+}
+.hero__scene canvas {
   position: absolute;
   inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: block;
+  width: 100%;
+  height: 100%;
   pointer-events: none;
 }
-.hero__ring {
-  width: min(30rem, 90%);
-  aspect-ratio: 1;
-  border-radius: 50%;
-  background: conic-gradient(from 0deg, var(--cyan), var(--blue), var(--violet), var(--magenta), var(--cyan));
-  filter: blur(50px);
-  opacity: 0.4;
-  animation: ringSpin 18s linear infinite;
-}
-@keyframes ringSpin { to { transform: rotate(360deg); } }
-@media (prefers-reduced-motion: reduce) { .hero__ring { animation: none; } }
 
-.hero__markWrap { position: relative; display: flex; align-items: center; justify-content: center; }
-.hero__mark {
-  width: min(19rem, 62%);
-  filter: drop-shadow(0 30px 60px rgba(1, 93, 252, 0.35));
-  transition: transform 0.4s var(--ease);
-  transform: translate3d(var(--tx, 0), var(--ty, 0), 0);
-}
-
-.hero__scrollcue { position: relative; z-index: 1; display: none; justify-content: center; margin-top: var(--space-9); }
+.hero__scrollcue { position: relative; z-index: 1; display: none; justify-content: center; margin-top: var(--space-8); }
 .hero__scrollcue span { width: 1px; height: 44px; background: linear-gradient(var(--border-strong), transparent); position: relative; overflow: hidden; }
 .hero__scrollcue span::after {
   content: ""; position: absolute; top: -44px; left: 0; width: 100%; height: 44px;
@@ -1670,7 +1728,7 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
 
 @media (max-width: 420px) {
   .container { padding-inline: var(--space-4); }
-  .hero { padding-block: var(--space-8) var(--space-9); }
+  .hero { padding-block: var(--space-7) var(--space-6); }
   .section { padding-block: var(--space-9); }
   .feel, .cta-final { padding-block: var(--space-9); }
 }

@@ -35,7 +35,7 @@ Single-page site, expanded (per explicit request for a longer, richer experience
 - A real logo file now exists (see Evidence on Hand) and is a binding brand asset — the design must build around it, not merely accommodate it.
 - Must be fully responsive and mobile-first, verified at 320/375/768/1024/1440px+, with no horizontal scroll.
 - Must be accessible: semantic HTML, sufficient contrast, visible focus states, well-designed hover states.
-- Copy must be in Spanish, professional/cercano/persuasivo tone, no empty superlatives.
+- Copy defaults to Spanish (professional/cercano/persuasivo tone, no empty superlatives) with a full English translation available via a nav language switch — every visible string ships in both languages, never partially translated. Neither language mixes in loanwords from the other when a natural equivalent exists, and copy avoids unexplained technical jargon (no bare "Mobile-first", "UI/UX", "responsive", etc.) since the audience includes non-technical business owners.
 
 ## Brand Commitments
 

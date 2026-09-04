@@ -229,40 +229,9 @@
     });
   });
 
-  /* ---------------- hero + card mouse interactions ---------------- */
+  /* ---------------- card mouse interactions ---------------- */
 
   var canHover = window.matchMedia && window.matchMedia("(hover: hover) and (pointer: fine)").matches;
-
-  var scene = document.querySelector("[data-hero-visual]");
-  if (scene && canHover && !reduceMotion) {
-    var parallaxEls = Array.prototype.slice.call(scene.querySelectorAll("[data-parallax]"));
-    var ticking = false;
-    var lastEvent = null;
-
-    var applyParallax = function () {
-      ticking = false;
-      if (!lastEvent) return;
-      var rect = scene.getBoundingClientRect();
-      var px = (lastEvent.clientX - rect.left) / rect.width - 0.5;
-      var py = (lastEvent.clientY - rect.top) / rect.height - 0.5;
-      parallaxEls.forEach(function (el) {
-        var depth = parseFloat(el.getAttribute("data-parallax-depth") || "10");
-        el.style.setProperty("--tx", (px * depth).toFixed(2) + "px");
-        el.style.setProperty("--ty", (py * depth).toFixed(2) + "px");
-      });
-    };
-
-    scene.addEventListener("mousemove", function (e) {
-      lastEvent = e;
-      if (!ticking) { ticking = true; requestAnimationFrame(applyParallax); }
-    });
-    scene.addEventListener("mouseleave", function () {
-      parallaxEls.forEach(function (el) {
-        el.style.setProperty("--tx", "0px");
-        el.style.setProperty("--ty", "0px");
-      });
-    });
-  }
 
   if (canHover) {
     var spotlightEls = document.querySelectorAll(".glass-card, .value-item");
@@ -284,6 +253,16 @@
         spotlightLastEvent = e;
         if (!spotlightTicking) { spotlightTicking = true; requestAnimationFrame(applySpotlight); }
       });
+    });
+  }
+
+  /* ---------------- lang switch: keep the current section when switching language ---------------- */
+  // The two lang links point at each page's root (/ and /en/); if the
+  // visitor is mid-page (e.g. #faq), carry that same anchor over so
+  // switching language doesn't bounce them back to the top.
+  if (window.location.hash) {
+    document.querySelectorAll("[data-lang-link]").forEach(function (link) {
+      link.setAttribute("href", link.getAttribute("href") + window.location.hash);
     });
   }
 })();

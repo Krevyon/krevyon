@@ -10,29 +10,6 @@
 
   gsap.registerPlugin(ScrollTrigger);
 
-  /* ---------------- hero depth: ring + mark drift as the hero scrolls away ---------------- */
-
-  var ringWrap = document.querySelector("[data-motion-ring]");
-  var markWrap = document.querySelector("[data-motion-mark]");
-
-  if (ringWrap) {
-    gsap.to(ringWrap, {
-      yPercent: 16,
-      scale: 1.06,
-      ease: "none",
-      scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: 0.6 },
-    });
-  }
-  if (markWrap) {
-    gsap.to(markWrap, {
-      yPercent: 8,
-      scale: 0.95,
-      opacity: 0.88,
-      ease: "none",
-      scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: 0.6 },
-    });
-  }
-
   /* ---------------- showcase panels: layered scale-in, staggered ---------------- */
 
   // Desktop enters first, then mobile, then tablet — data-motion-order pins
